@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Portfolio</title>
+
+<style>
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Pretendard', sans-serif;
+  letter-spacing: -0.02em;
+}
+
+body {
+  background: #000;
+  color: #fff;
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* NAV */
+nav {
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  padding: 25px 5%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10px);
+}
+
+nav .logo {
+  color: #FF4FA3;
+  font-weight: 800;
+  font-size: 22px;
+  letter-spacing: 1px;
+}
+
+nav ul {
+  display: flex;
+  gap: 40px;
+}
+
+nav ul li {
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 500;
+  opacity: 0.7;
+  transition: 0.3s;
+}
+
+nav ul li:hover {
+  opacity: 1;
+  color: #FF4FA3;
+}
+
+.hero {
+  height: 100vh;
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 0 10%;
+  overflow: hidden;
+  perspective: 1000px;
+}
+
+.hero img {
+  position: absolute;
+  right: 8%;
+  bottom: 0;
+  height: 80vh;
+  filter: grayscale(0.3) contrast(1.1) brightness(1.0);
+  object-fit: cover;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0;
+  transform: scale(1.05) translate(30px, 20px);
+  transition: transform 1.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 1.8s ease;
+}
+
+.hero img.active {
+  opacity: 0.85;
+  transform: scale(1) translate(0, 0);
+}
+
+.hero-text {
+  z-index: 2;
+  position: relative;
+  mix-blend-mode: transform;
+}
+
+.hero-text small {
+  display: block;
+  font-size: 18px;
+  font-weight: 300;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  margin-bottom: 10px;
+  color: #fff;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 1.2s ease;
+}
+
+.hero-text small.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.hero-text h1 {
+  font-size: clamp(50px, 8vw, 110px); 
+  color: #FF4FA3;
+  line-height: 1.05;
+  font-weight: 900;
+  text-align: left;
+  margin-bottom: 20px;
+  text-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
+  opacity: 0;
+  transform: translateY(50px) skewY(2deg);
+  transition: transform 1.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 1.5s ease;
+}
+
+.hero-text h1.active {
+  opacity: 1;
+  transform: translateY(0) skewY(0deg);
+}
+
+.hero-text p {
+  font-size: 20px;
+  font-weight: 400;
+  color: #fff;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 1.2s ease;
+}
+
+.hero-text p.active {
+  opacity: 0.8;
+  transform: translateY(0);
+}
+
+.section {
+  padding: 160px 10%;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.section h2 {
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  color: #FF4FA3;
+  margin-bottom: 30px;
+  font-weight: 700;
+}
+
+#about h3 {
+  font-size: clamp(24px, 4vw, 36px);
+  line-height: 1.4;
+  font-weight: 700;
+  margin-bottom: 25px;
+}
+
+#about p {
+  font-size: 17px;
+  color: #aaa;
+  line-height: 1.8;
+  max-width: 600px;
+}
+
+
+/*skill*/
+.skills-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
+  max-width: 900px;
+}
+
+.skill-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 90px;
+}
+
+.skill-block .icon-box {
+  width: 90px;
+  height: 90px;
+  background: #111;
+  border: 2px solid #FF4FA3;
+  border-radius: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+
+.skill-block .icon-box span {
+  font-size: 28px;
+  font-weight: 800;
+  color: #FF4FA3;
+  line-height: 1;
+}
+
+.skill-block .icon-box svg {
+  fill: #FF4FA3;
+  display: block;
+  margin: 0 auto;
+  fill-rule: evenodd;
+  clip-rule: evenodd;
+}
+
+.skill-block .icon-box .figma-icon { width: 32px; height: 32px; }
+.skill-block .icon-box .html-icon { width: 38px; height: 38px; }
+.skill-block .icon-box .css-icon { width: 38px; height: 38px; }
+.skill-block .icon-box .js-icon { width: 34px; height: 34px; }
+
+.skill-block .skill-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: #fff;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 25px;
+}
+
+
+/*projects*/
+.project-card-fixed {
+  grid-column: 1 / -1; /* 가로 전체 차지 */
+  background: #111;
+  border: 1px solid #222;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 30px;
+  gap: 30px;
+  box-sizing: border-box;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.project-card-fixed:hover {
+  transform: translateY(-8px);
+  border-color: #FF4FA3;
+  box-shadow: 0 10px 30px rgba(255, 79, 163, 0.1);
+}
+
+.project-img-container {
+  flex: 1;
+  max-width: 70%;
+  display: flex;
+  align-items: center;
+}
+
+.project-img-container img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  border-radius: 8px;
+}
+
+.project-btn-container {
+  display: flex;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.btn-link {
+  font-size: 15px;
+  font-weight: 600;
+  color: #fff;
+  padding: 14px 26px;
+  border: 1.5px solid #FF4FA3;
+  border-radius: 6px;
+  text-align: center;
+  white-space: nowrap;
+  transition: all 0.3s ease;
+}
+
+.btn-link:hover {
+  background: #FF4FA3;
+  color: #fff;
+}
+
+/* CONTACT */
+#contact p {
+  font-size: clamp(24px, 5vw, 40px);
+  font-weight: 700;
+  color: #fff;
+  display: inline-block;
+  border-bottom: 2px solid #FF4FA3;
+  padding-bottom: 10px;
+}
+
+/* 애니메이션 */
+.fade-up {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.fade-up.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* 반응형 모바일 */
+@media (max-width: 768px) {
+  nav {
+    padding: 20px 6%;
+  }
+  
+  nav ul {
+    gap: 20px;
+  }
+
+  .hero {
+    padding: 0 6%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+  }
+
+  .hero img {
+    height: 50%;
+    right: -5%;
+    bottom: 0;
+    opacity: 0.5 !important;
+  }
+  
+  .section {
+    padding: 100px 6%;
+  }
+
+  .skills-grid {
+    gap: 20px;
+    justify-content: center;
+  }
+
+  .skill-block {
+    width: 70px;
+  }
+
+  .skill-block .icon-box {
+    width: 70px;
+    height: 70px;
+    border-radius: 16px;
+    margin-bottom: 10px;
+  }
+
+  .skill-block .icon-box span {
+    font-size: 22px;
+  }
+
+  .skill-block .icon-box .figma-icon { width: 24px; height: 24px; }
+  .skill-block .icon-box .html-icon { width: 28px; height: 28px; }
+  .skill-block .icon-box .css-icon { width: 28px; height: 28px; }
+  .skill-block .icon-box .js-icon { width: 26px; height: 26px; }
+
+  .skill-block .skill-name {
+    font-size: 12px;
+  }
+
+  .project-card-fixed {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 20px;
+    gap: 20px;
+  }
+
+  .project-img-container {
+    max-width: 100%;
+  }
+
+  .project-img-container img {
+    width: 100%;
+    height: auto;
+  }
+
+  .project-btn-container {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 5px;
+  }
+
+  .btn-link {
+    font-size: 13px;
+    padding: 10px 18px;
+    border-radius: 4px;
+    flex: 1;
+    text-align: center;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<nav>
+  <div class="logo">SEONWOO</div>
+  <ul>
+    <li onclick="scrollToSection('about')">About</li>
+    <li onclick="scrollToSection('skills')">Skills</li>
+    <li onclick="scrollToSection('projects')">Projects</li>
+    <li onclick="scrollToSection('contact')">Contact</li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div class="hero-text">
+    <small id="heroSmall">Motion & Experience</small>
+    <h1 id="mainText">SEONWOO<br>LIM</h1>
+    <p id="heroP">UIUX Web Publisher</p>
+  </div>
+  <img id="heroImg" src="images/seonu.png" alt="profile">
+</section>
+
+<section id="about" class="section fade-up">
+  <h2>About Me</h2>
+  <h3>사용자 경험을<br>결과로 연결하는 웹퍼블리셔</h3>
+  <p>
+    안녕하세요! 저는 디테일한 시선으로 경험을 완성하는 UIUX 웹퍼블리셔입니다.<br>
+    반복적인 개선과 집요한 수정으로 사용자 경험의 완성도를 끝까지 끌어올립니다.
+  </p>
+</section>
+
+<section id="skills" class="section fade-up">
+  <h2>Skills</h2>
+  <div class="skills-grid">
+    
+    <div class="skill-block">
+      <div class="icon-box">
+        <span>Ps</span>
+      </div>
+      <p class="skill-name">Photoshop</p>
+    </div>
+    
+    <div class="skill-block">
+      <div class="icon-box">
+        <span>Ai</span>
+      </div>
+      <p class="skill-name">Illustrator</p>
+    </div>
+    
+    <div class="skill-block">
+      <div class="icon-box">
+        <svg viewBox="0 0 100 100" class="figma-icon">
+          <path d="M35 25c0-6.9 5.6-12.5 12.5-12.5S60 18.1 60 25v12.5H47.5C40.6 37.5 35 31.9 35 25z M35 50c0-6.9 5.6-12.5 12.5-12.5H60V62.5H47.5C40.6 62.5 35 56.9 35 50z M35 75c0-6.9 5.6-12.5 12.5-12.5H60V75c0 6.9-5.6 12.5-12.5 12.5S35 81.9 35 75z M60 50c0-6.9 5.6-12.5 12.5-12.5S85 43.1 85 50s-5.6 12.5-12.5 12.5S60 56.9 60 50z M60 25c0-6.9 5.6-12.5 12.5-12.5S85 18.1 85 25s-5.6 12.5-12.5 12.5S60 31.9 60 25z" />
+        </svg>
+      </div>
+      <p class="skill-name">Figma</p>
+    </div>
+    
+    <div class="skill-block">
+      <div class="icon-box">
+        <svg viewBox="0 0 512 512" class="html-icon">
+          <path d="M64 32l35.7 408.4L256 480l156.3-39.6L448 32H64zm302.2 141.2H177.3l4.3 48.2h180.2l-13.6 151.7L256 400.1l-92.2-27.5-6.1-68.5H209l3.4 37.7 43.6 11.9 43.6-11.9 4.7-52.9H139.7l-12.2-137.2H372l-5.8 66.5z"/>
+        </svg>
+      </div>
+      <p class="skill-name">HTML5</p>
+    </div>
+    
+    <div class="skill-block">
+      <div class="icon-box">
+        <svg viewBox="0 0 512 512" class="css-icon">
+          <path d="M64 32l35.7 408.4L256 480l156.3-39.6L448 32H64zm298.3 141.2H256v48.2h63.2l-6 66.5H256v48.2h48.1l-8.9 98-39.2 10.8-39.2-10.8-2.5-27.8h-48.1l4.8 53.7 85 23.5 85-23.5 11.5-128.4H204l-4.3-48.2h159.2l6-66.5z"/>
+        </svg>
+      </div>
+      <p class="skill-name">CSS3</p>
+    </div>
+    
+    <div class="skill-block">
+      <div class="icon-box">
+        <svg viewBox="0 0 448 512" class="js-icon">
+          <path d="M0 32v448h448V32H0zm243.8 349.4c0 43.6-25.6 63.5-62.1 63.5-33.7 0-53.2-17.4-63.2-38.5l43.3-25.6c6.9 14.1 16.5 21.4 29.1 21.4 15.6 0 24.1-7.5 24.1-31.8V223h48.8v158.4zm111.1 21.1c-13.8 0-25.6-6-33.4-17.7-10.2-15.3-13.8-37.3-13.8-57.7h48.8c0 10.5 1.5 21.6 7.2 21.6 6.6 0 10.2-4.2 10.2-13.2v-112h48.8v113.1c.1 42.2-22.9 65.9-67.8 65.9z"/>
+        </svg>
+      </div>
+      <p class="skill-name">JavaScript</p>
+    </div>
+  </div>
+</section>
+
+<section id="projects" class="section fade-up">
+  <h2>Projects</h2>
+  <div class="grid-container">
+    <div class="project-card-fixed">
+      <div class="project-img-container">
+        <img src="images/friprenewal.png" alt="FRIP Web Renewal Cover">
+      </div>
+      <div class="project-btn-container">
+        <a href="files/frip_proposal.pdf" target="_blank" class="btn-link">기획서 ↗</a>
+        <a href="https://seonu8.github.io/FripRenewal/" target="_blank" class="btn-link">웹사이트 ↗</a>
+      </div>
+    </div>
+</section>
+
+<section id="contact" class="section fade-up">
+  <h2>Contact</h2>
+  <p>seonu828@naver.com</p><br><br>
+  <p>010-5174-9613</p>
+</section>
+
+<script>
+// 스크롤 이동
+function scrollToSection(id) {
+  document.getElementById(id).scrollIntoView({
+    behavior: 'smooth'
+  });
+}
+
+// 스크롤 트리거 애니메이션
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('show');
+    }
+  });
+}, { threshold: 0.15 });
+
+document.querySelectorAll('.fade-up').forEach(el => {
+  observer.observe(el);
+});
+
+// 스크롤 패럴럭스 + 인터랙티브 마우스 무브 모션 통합
+const hero = document.querySelector('.hero');
+const img = document.getElementById('heroImg');
+const text = document.querySelector('.hero-text');
+
+let mouseX = 0, mouseY = 0;
+let targetX = 0, targetY = 0;
+const speed = 0.08; // 감속 수치 (부드러운 관성을 유도)
+
+// 마우스 움직임 감지 코드
+window.addEventListener('mousemove', (e) => {
+  // 화면 중앙 기준 좌표값 계산
+  mouseX = (e.clientX - window.innerWidth / 2) / 35;
+  mouseY = (e.clientY - window.innerHeight / 2) / 35;
+});
+
+// RAF 애니메이션 루프 (마우스 및 스크롤 연동 관성 제어)
+function animateHero() {
+  const scrollY = window.scrollY;
+  
+  // 마우스 목표값 댐핑 보정 (Lerp 효과)
+  targetX += (mouseX - targetX) * speed;
+  targetY += (mouseY - targetY) * speed;
+
+  if (scrollY < window.innerHeight) {
+    // 1. 스크롤에 의한 세로 무브 + 마우스 반응형 가로세로 무브 통합 결합
+    // 이미지와 텍스트의 이동 방향 및 강도를 미세하게 다르게 세팅하여 입체감 극대화 (Parallax)
+    img.style.transform = `translate3d(${-targetX * 1.5}px, ${scrollY * 0.15 - targetY * 1.2}px, 0)`;
+    text.style.transform = `translate3d(${targetX * 0.8}px, ${scrollY * 0.08 + targetY * 0.5}px, 0)`;
+  }
+  
+  requestAnimationFrame(animateHero);
+}
+animateHero();
+
+// 페이지 진입 시 타이핑/순차 시퀀스 리빌 애니메이션 활성화
+window.addEventListener('DOMContentLoaded', () => {
+  setTimeout(() => { document.getElementById('heroSmall').classList.add('active'); }, 150);
+  setTimeout(() => { document.getElementById('mainText').classList.add('active'); }, 300);
+  setTimeout(() => { document.getElementById('heroP').classList.add('active'); }, 500);
+  setTimeout(() => { document.getElementById('heroImg').classList.add('active'); }, 400);
+});
+</script>
+
+</body>
+</html>
